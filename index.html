@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BOUNCE Inc — Get Some Air | Trampoline & Freestyle Parks Australia</title>
+<meta name="description" content="26 venues across Australia. Freestyle trampolining, dodgeball, ninja courses, epic parties and school holiday fun. Book your session at BOUNCE Inc." />
+<meta property="og:title" content="BOUNCE Inc — Get Some Air" />
+<meta property="og:description" content="Australia's home of freestyle movement. 26 venues. Book your jump." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* ---------- Design tokens ---------- */
+  :root{
+    --ink:#0A0A0B; --ink-2:#141417; --ink-3:#1E1E23;
+    --paper:#F5F4EF; --muted:#9A9AA5;
+    --volt:#B4FF3D;        /* signature electric lime */
+    --magenta:#FF2E7E;     /* action pink */
+    --cyan:#19E6C9;        /* cool accent */
+    --line:rgba(255,255,255,.10);
+    --r:18px; --r-lg:28px;
+    --shadow:0 30px 80px -30px rgba(0,0,0,.7);
+    --ease:cubic-bezier(.22,1,.36,1);
+    --pad:clamp(20px,5vw,72px);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    margin:0;background:var(--ink);color:var(--paper);
+    font-family:Inter,system-ui,sans-serif;line-height:1.55;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{margin:0;font-family:Archivo,sans-serif;font-weight:900;line-height:.95;letter-spacing:-.02em}
+  .display{font-family:Anton,sans-serif;font-weight:400;letter-spacing:.005em;text-transform:uppercase}
+  .eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--volt)}
+  .wrap{max-width:1240px;margin:0 auto;padding-inline:var(--pad)}
+  section{position:relative}
+  .btn{display:inline-flex;align-items:center;gap:.5em;font-weight:700;font-size:.98rem;
+    padding:15px 26px;border-radius:999px;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .2s;cursor:pointer;border:0}
+  .btn-primary{background:var(--magenta);color:#fff;box-shadow:0 10px 30px -8px rgba(255,46,126,.6)}
+  .btn-primary:hover{transform:translateY(-2px) scale(1.02)}
+  .btn-volt{background:var(--volt);color:var(--ink)}
+  .btn-volt:hover{transform:translateY(-2px) scale(1.02)}
+  .btn-ghost{background:transparent;color:var(--paper);border:1.5px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--volt);color:var(--volt)}
+  .btn svg{width:1.1em;height:1.1em}
+
+  /* ---------- Nav ---------- */
+  header{position:fixed;inset:0 0 auto 0;z-index:60;transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
+  header.scrolled{background:rgba(10,10,11,.82);backdrop-filter:blur(14px);border-color:var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:Anton,sans-serif;font-size:1.5rem;letter-spacing:.02em}
+  .brand .dot{color:var(--volt)}
+  .brand-mark{width:34px;height:34px;border-radius:9px;background:var(--volt);display:grid;place-items:center;color:var(--ink);font-weight:900;font-family:Archivo;transform:rotate(-6deg)}
+  .nav-links{display:flex;gap:28px;font-weight:600;font-size:.92rem}
+  .nav-links a{color:#d7d7dd;position:relative}
+  .nav-links a:hover{color:#fff}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--volt);transition:width .25s var(--ease)}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{display:flex;align-items:center;gap:12px}
+  .burger{display:none;background:none;border:0;color:#fff;width:44px;height:44px}
+  @media(max-width:940px){.nav-links{display:none}.nav-cta .btn-ghost{display:none}.burger{display:grid;place-items:center}}
+
+  /* ---------- Hero ---------- */
+  .hero{min-height:100svh;display:flex;align-items:center;padding-top:90px;padding-bottom:60px;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;z-index:0}
+  .hero-bg .glow{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55}
+  .g1{width:52vw;height:52vw;left:-12vw;top:-16vw;background:radial-gradient(circle,var(--magenta),transparent 62%)}
+  .g2{width:46vw;height:46vw;right:-10vw;top:6vw;background:radial-gradient(circle,var(--cyan),transparent 62%);opacity:.4}
+  .g3{width:40vw;height:40vw;left:30vw;bottom:-18vw;background:radial-gradient(circle,var(--volt),transparent 60%);opacity:.35}
+  .grid-overlay{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(circle at 50% 40%,#000 30%,transparent 78%);opacity:.5}
+  .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;width:100%}
+  @media(max-width:900px){.hero-inner{grid-template-columns:1fr}}
+  .hero h1{font-size:clamp(3.4rem,11vw,8.2rem);text-transform:uppercase}
+  .hero h1 .out{-webkit-text-stroke:2px var(--volt);color:transparent}
+  .hero h1 .fill{color:var(--volt)}
+  .hero p.lede{max-width:46ch;color:#c9c9d2;font-size:clamp(1rem,1.4vw,1.18rem);margin:22px 0 30px}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+  .stat-row{display:flex;gap:30px;margin-top:44px;flex-wrap:wrap}
+  .stat b{font-family:Archivo;font-weight:900;font-size:1.9rem;display:block;color:#fff}
+  .stat span{font-size:.82rem;color:var(--muted);letter-spacing:.02em}
+  /* hero visual card — asset slot for cinematic footage */
+  .hero-card{position:relative;aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);
+    background:linear-gradient(150deg,var(--ink-3),var(--ink-2));box-shadow:var(--shadow)}
+  .hero-card .figure{position:absolute;inset:0;display:grid;place-items:center;color:#3a3a44;font-family:Anton;font-size:1rem;text-align:center;padding:20px}
+  .hero-card .badge{position:absolute;top:16px;left:16px;background:var(--magenta);color:#fff;font-weight:800;font-size:.72rem;letter-spacing:.12em;padding:7px 12px;border-radius:999px;text-transform:uppercase}
+  .float-chip{position:absolute;z-index:3;background:rgba(20,20,23,.9);border:1px solid var(--line);border-radius:14px;padding:12px 16px;backdrop-filter:blur(8px);font-size:.82rem;box-shadow:var(--shadow)}
+  .chip-1{right:-12px;top:14%}
+  .chip-2{left:-16px;bottom:16%}
+  .float-chip b{color:var(--volt)}
+  .scroll-cue{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:3;color:var(--muted);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .scroll-cue .line{width:1px;height:34px;background:linear-gradient(var(--volt),transparent)}
+
+  /* ---------- Marquee ---------- */
+  .marquee{border-block:1px solid var(--line);background:var(--ink-2);overflow:hidden;padding:16px 0}
+  .marquee-track{display:flex;gap:44px;white-space:nowrap;font-family:Anton;text-transform:uppercase;font-size:1.4rem;color:#37373f}
+  .marquee-track b{color:var(--paper)}
+  .marquee-track .star{color:var(--volt)}
+  @media (prefers-reduced-motion: no-preference){
+    .marquee-track{animation:scrollx 26s linear infinite}
+    @keyframes scrollx{to{transform:translateX(-50%)}}
+  }
+
+  /* ---------- Venue finder ---------- */
+  .sec-pad{padding-block:clamp(64px,9vw,120px)}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:38px}
+  .sec-head h2{font-size:clamp(2rem,5vw,3.4rem);text-transform:uppercase}
+  .finder-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+  .finder-bar input{flex:1;min-width:220px;background:var(--ink-2);border:1px solid var(--line);color:#fff;border-radius:14px;padding:15px 18px;font-size:1rem;font-family:inherit}
+  .finder-bar input:focus{outline:2px solid var(--volt);outline-offset:1px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+  .chip{background:var(--ink-2);border:1px solid var(--line);color:#cfcfd6;font-weight:600;font-size:.85rem;padding:9px 16px;border-radius:999px;cursor:pointer;transition:.2s}
+  .chip[aria-pressed="true"]{background:var(--volt);color:var(--ink);border-color:var(--volt)}
+  .venues{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+  .venue{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--r);padding:20px;transition:transform .3s var(--ease),border-color .3s}
+  .venue:hover{transform:translateY(-4px);border-color:var(--volt)}
+  .venue .state{font-size:.72rem;font-weight:700;letter-spacing:.14em;color:var(--cyan);text-transform:uppercase}
+  .venue h3{font-size:1.28rem;margin:6px 0 10px;font-family:Archivo}
+  .venue .meta{font-size:.85rem;color:var(--muted);display:flex;gap:14px;margin-bottom:14px}
+  .venue a.book{font-weight:700;color:var(--volt);font-size:.9rem;display:inline-flex;align-items:center;gap:6px}
+  .venue-empty{grid-column:1/-1;color:var(--muted);padding:30px;text-align:center;border:1px dashed var(--line);border-radius:var(--r)}
+  .count-note{color:var(--muted);font-size:.85rem;margin-top:16px}
+
+  /* ---------- Experiences ---------- */
+  .exp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  @media(max-width:900px){.exp-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.exp-grid{grid-template-columns:1fr}}
+  .exp{position:relative;border-radius:var(--r);overflow:hidden;min-height:320px;border:1px solid var(--line);
+    display:flex;flex-direction:column;justify-content:flex-end;padding:22px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.5)),linear-gradient(150deg,var(--ink-3),var(--ink-2))}
+  .exp .num{position:absolute;top:16px;right:18px;font-family:Anton;font-size:2.4rem;color:rgba(255,255,255,.08)}
+  .exp h3{font-size:1.35rem;text-transform:uppercase;font-family:Archivo}
+  .exp p{font-size:.9rem;color:#bfbfc7;margin:8px 0 0}
+  .exp .tag{align-self:flex-start;margin-bottom:10px;font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--volt);padding:5px 10px;border-radius:999px}
+  .exp.magenta .tag{background:var(--magenta);color:#fff}
+  .exp.cyan .tag{background:var(--cyan);color:var(--ink)}
+
+  /* ---------- Inside Bounce (scroll story) ---------- */
+  .story{background:var(--ink-2);border-block:1px solid var(--line)}
+  .story-row{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding-block:clamp(48px,7vw,90px)}
+  .story-row:nth-child(even) .story-media{order:-1}
+  @media(max-width:820px){.story-row{grid-template-columns:1fr}.story-row:nth-child(even) .story-media{order:0}}
+  .story-media{aspect-ratio:16/11;border-radius:var(--r-lg);border:1px solid var(--line);background:linear-gradient(150deg,var(--ink-3),#0d0d10);display:grid;place-items:center;color:#33333c;font-family:Anton;position:relative;overflow:hidden}
+  .story-media .slot{font-size:.82rem;text-align:center;padding:20px}
+  .story h2{font-size:clamp(1.8rem,4vw,2.8rem);text-transform:uppercase;margin-bottom:14px}
+  .story p{color:#c2c2ca;max-width:44ch}
+
+  /* ---------- Audience split ---------- */
+  .aud-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:820px){.aud-grid{grid-template-columns:1fr}}
+  .aud{border:1px solid var(--line);border-radius:var(--r);padding:26px;background:var(--ink-2);transition:.3s var(--ease)}
+  .aud:hover{transform:translateY(-4px);border-color:var(--magenta)}
+  .aud h3{font-size:1.4rem;text-transform:uppercase;font-family:Archivo;margin-bottom:8px}
+  .aud p{color:#bfbfc7;font-size:.92rem;margin-bottom:18px}
+  .aud ul{list-style:none;padding:0;margin:0 0 20px;font-size:.88rem;color:#d4d4da}
+  .aud li{padding:7px 0;border-top:1px solid var(--line);display:flex;gap:8px}
+  .aud li::before{content:"→";color:var(--volt)}
+
+  /* ---------- Safety ---------- */
+  .safety{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+  @media(max-width:820px){.safety{grid-template-columns:1fr}}
+  .safety h2{font-size:clamp(1.9rem,4.5vw,3rem);text-transform:uppercase;margin-bottom:16px}
+  .safety-list{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+  @media(max-width:520px){.safety-list{grid-template-columns:1fr}}
+  .safety-item{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .safety-item b{display:block;color:var(--volt);font-size:.95rem;margin-bottom:4px}
+  .safety-item span{font-size:.82rem;color:var(--muted)}
+
+  /* ---------- Membership ---------- */
+  .member{background:linear-gradient(135deg,var(--magenta),#8f1750);border-radius:var(--r-lg);padding:clamp(30px,5vw,56px);display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center;overflow:hidden;position:relative}
+  @media(max-width:760px){.member{grid-template-columns:1fr}}
+  .member h2{font-size:clamp(2rem,5vw,3.2rem);text-transform:uppercase}
+  .member p{color:rgba(255,255,255,.9);max-width:42ch;margin:14px 0 24px}
+  .member .price{background:rgba(0,0,0,.28);border-radius:var(--r);padding:24px;text-align:center}
+  .member .price .amt{font-family:Anton;font-size:3.4rem;line-height:1}
+  .member .price small{display:block;opacity:.8;font-size:.8rem;margin-top:6px}
+
+  /* ---------- Final CTA ---------- */
+  .final{text-align:center;padding-block:clamp(70px,11vw,150px);position:relative;overflow:hidden}
+  .final h2{font-size:clamp(2.8rem,10vw,7rem);text-transform:uppercase}
+  .final h2 .fill{color:var(--volt)}
+  .final p{color:#bfbfc7;margin:18px auto 30px;max-width:40ch}
+  .final .glow{position:absolute;width:60vw;height:60vw;left:20vw;top:-10vw;background:radial-gradient(circle,var(--magenta),transparent 60%);filter:blur(80px);opacity:.4;z-index:0}
+  .final .wrap{position:relative;z-index:2}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--ink-2);border-top:1px solid var(--line);padding-block:56px 30px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px}
+  @media(max-width:760px){.foot-grid{grid-template-columns:1fr 1fr}}
+  footer h4{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  footer ul{list-style:none;padding:0;margin:0;font-size:.9rem}
+  footer li{padding:6px 0;color:#c2c2ca}
+  footer li a:hover{color:var(--volt)}
+  .foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:22px;color:var(--muted);font-size:.82rem}
+  .socials{display:flex;gap:12px}
+  .socials a{width:38px;height:38px;border:1px solid var(--line);border-radius:10px;display:grid;place-items:center;transition:.2s}
+  .socials a:hover{background:var(--volt);color:var(--ink);border-color:var(--volt)}
+
+  /* ---------- Scroll reveal ---------- */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+    .reveal.in{opacity:1;transform:none}
+  }
+  /* skip link */
+  .skip{position:absolute;left:-999px;top:8px;background:var(--volt);color:var(--ink);padding:10px 16px;border-radius:8px;z-index:100;font-weight:700}
+  .skip:focus{left:12px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header id="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="#" aria-label="BOUNCE Inc home">
+      <span class="brand-mark">B</span>BOUNCE<span class="dot">.</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#venues">Venues</a>
+      <a href="#experiences">Activities</a>
+      <a href="#parties">Parties</a>
+      <a href="#groups">Groups &amp; Schools</a>
+      <a href="#membership">Memberships</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="#venues">Find a venue</a>
+      <a class="btn btn-primary" href="#venues">Book now</a>
+      <button class="burger" aria-label="Open menu" onclick="document.getElementById('venues').scrollIntoView()">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" aria-label="Introduction">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+  <div class="wrap hero-inner">
+    <div>
+      <p class="eyebrow">Australia's home of freestyle movement</p>
+      <h1><span class="fill">Get</span> <span class="out">some</span><br>Air.</h1>
+      <p class="lede">Flip, fly, fall and get back up. 26 venues packed with trampolines, ninja walls, dodgeball courts and airbags — built for pure momentum and totally safe landings.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#venues">Book your session
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#venues">Find a venue near you</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><b>26</b><span>Venues nationwide</span></div>
+        <div class="stat"><b>7</b><span>States &amp; territories</span></div>
+        <div class="stat"><b>4.7★</b><span>Rated by jumpers</span></div>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div class="hero-card">
+        <span class="badge">Live footage slot</span>
+        <div class="figure">[ CINEMATIC HERO<br>Athlete suspended mid-flip ·<br>Higgsfield / real venue footage ]</div>
+      </div>
+      <div class="float-chip chip-1"><b>Now open</b><br>Friday Night Super Sessions</div>
+      <div class="float-chip chip-2"><b>3 hrs · $30</b><br>Unlimited jump time</div>
+    </div>
+  </div>
+  <div class="scroll-cue" aria-hidden="true"><span>Scroll</span><span class="line"></span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span><b>FREESTYLE</b> <span class="star">✳</span> DODGEBALL <span class="star">✳</span> <b>THE WALL</b> <span class="star">✳</span> NINJA <span class="star">✳</span> <b>CLIFF JUMP</b> <span class="star">✳</span> AIRBAG <span class="star">✳</span> <b>MINIBOUNCE</b> <span class="star">✳</span> PARTIES <span class="star">✳</span> </span>
+    <span><b>FREESTYLE</b> <span class="star">✳</span> DODGEBALL <span class="star">✳</span> <b>THE WALL</b> <span class="star">✳</span> NINJA <span class="star">✳</span> <b>CLIFF JUMP</b> <span class="star">✳</span> AIRBAG <span class="star">✳</span> <b>MINIBOUNCE</b> <span class="star">✳</span> PARTIES <span class="star">✳</span> </span>
+  </div>
+</div>
+
+<!-- VENUE FINDER -->
+<section id="venues" class="sec-pad">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <p class="eyebrow">Find your park</p>
+        <h2>26 venues.<br>One near you.</h2>
+      </div>
+      <p style="max-width:34ch;color:var(--muted)">Search by suburb or state, then jump straight to booking. Every venue, one system.</p>
+    </div>
+    <div class="finder-bar reveal">
+      <input id="venue-search" type="search" placeholder="Search suburb or venue — e.g. Blacktown, Perth…" aria-label="Search venues" />
+    </div>
+    <div class="chips reveal" role="group" aria-label="Filter by state">
+      <button class="chip" data-state="all" aria-pressed="true">All states</button>
+      <button class="chip" data-state="VIC" aria-pressed="false">VIC</button>
+      <button class="chip" data-state="QLD" aria-pressed="false">QLD</button>
+      <button class="chip" data-state="NSW" aria-pressed="false">NSW</button>
+      <button class="chip" data-state="WA" aria-pressed="false">WA</button>
+      <button class="chip" data-state="SA" aria-pressed="false">SA</button>
+      <button class="chip" data-state="ACT" aria-pressed="false">ACT</button>
+      <button class="chip" data-state="TAS" aria-pressed="false">TAS</button>
+    </div>
+    <div class="venues" id="venue-grid" aria-live="polite"></div>
+    <p class="count-note" id="venue-count"></p>
+  </div>
+</section>
+
+<!-- SIGNATURE EXPERIENCES -->
+<section id="experiences" class="sec-pad" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div><p class="eyebrow">Signature experiences</p><h2>Pick your energy</h2></div>
+    </div>
+    <div class="exp-grid">
+      <article class="exp reveal"><span class="num">01</span><span class="tag">Freestyle</span><h3>Open Jump</h3><p>Wall-to-wall trampolines, cliff jumps and the airbag. Total freedom to move.</p></article>
+      <article class="exp magenta reveal"><span class="num">02</span><span class="tag">Competitive</span><h3>Dodgeball</h3><p>Team courts, tournaments and pure chaos. Bring your crew.</p></article>
+      <article class="exp cyan reveal"><span class="num">03</span><span class="tag">Challenge</span><h3>Ninja &amp; The Wall</h3><p>Warped walls, obstacle runs and grip-testing climbs for every level.</p></article>
+      <article class="exp reveal"><span class="num">04</span><span class="tag">Ages 2–5</span><h3>miniBOUNCE</h3><p>A soft, safe zone built just for little legs and first big jumps.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- INSIDE BOUNCE (scroll story) -->
+<section class="story" aria-label="Inside Bounce">
+  <div class="wrap">
+    <div class="story-row reveal">
+      <div>
+        <p class="eyebrow">Inside Bounce</p>
+        <h2>Momentum you can feel</h2>
+        <p>Every venue is engineered for flow — connected trampolines, sprung floors and sightlines that keep parents watching and kids moving. This is movement as play.</p>
+      </div>
+      <div class="story-media"><span class="slot">[ SCROLL SCENE 01<br>Wide venue reveal · parallax pan ]</span></div>
+    </div>
+    <div class="story-row reveal">
+      <div>
+        <p class="eyebrow">The airbag</p>
+        <h2>Land the big one</h2>
+        <p>Progress from first bounce to full flips into a giant airbag. Coaches on hand, confidence built rep by rep.</p>
+      </div>
+      <div class="story-media"><span class="slot">[ SCROLL SCENE 02<br>Slow-mo airbag flip · pinned sequence ]</span></div>
+    </div>
+    <div class="story-row reveal">
+      <div>
+        <p class="eyebrow">Freestyle Academy</p>
+        <h2>From play to progression</h2>
+        <p>Structured squads — miniBOUNCE, Bounce, Flight and Ninja — turn free play into real skill, coached weekly.</p>
+      </div>
+      <div class="story-media"><span class="slot">[ SCROLL SCENE 03<br>Coach + squad · character motion ]</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCE SPLIT: PARTIES / GROUPS -->
+<section id="parties" class="sec-pad">
+  <div class="wrap">
+    <div class="sec-head reveal"><div><p class="eyebrow">Celebrate &amp; gather</p><h2>Every crew, sorted</h2></div></div>
+    <div class="aud-grid">
+      <article class="aud reveal" id="parties-card">
+        <h3>Epic parties</h3>
+        <p>Birthday energy without the mess or the stress. We host, you relax.</p>
+        <ul><li>Ultimate Parties · all ages</li><li>miniBOUNCE Parties · ages 2–5</li><li>Unhosted Parties · ages 7+</li></ul>
+        <a class="btn btn-volt" href="#venues">Plan a party</a>
+      </article>
+      <article class="aud reveal" id="groups">
+        <h3>Schools &amp; camps</h3>
+        <p>Curriculum-friendly excursions and holiday camps that burn energy and build confidence.</p>
+        <ul><li>School excursions</li><li>Holiday camps</li><li>Group rates &amp; risk docs</li></ul>
+        <a class="btn btn-volt" href="#venues">Enquire for schools</a>
+      </article>
+      <article class="aud reveal">
+        <h3>Corporate &amp; teams</h3>
+        <p>Team-building that people actually want to attend. Private courts, catering, chaos optional.</p>
+        <ul><li>Team days &amp; socials</li><li>Private venue hire</li><li>Custom packages</li></ul>
+        <a class="btn btn-volt" href="#venues">Book a team day</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SAFETY -->
+<section class="sec-pad" style="padding-top:0" aria-label="Safety">
+  <div class="wrap safety">
+    <div class="reveal">
+      <p class="eyebrow">Parents, relax</p>
+      <h2>Big air.<br>Safe landings.</h2>
+      <p style="color:#c2c2ca;max-width:44ch">Every session is supervised by trained court marshals, with clear rules, graded zones and equipment checked daily. Fun comes first — safety makes it possible.</p>
+      <a class="btn btn-ghost reveal" href="#" style="margin-top:22px">Read safety info</a>
+    </div>
+    <div class="safety-list reveal">
+      <div class="safety-item"><b>Trained marshals</b><span>Eyes on every court, every session.</span></div>
+      <div class="safety-item"><b>Graded zones</b><span>Little jumpers kept clear of big air.</span></div>
+      <div class="safety-item"><b>Daily checks</b><span>Equipment inspected before doors open.</span></div>
+      <div class="safety-item"><b>Grip socks</b><span>Included and required — no slips.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERSHIP -->
+<section id="membership" class="sec-pad" style="padding-top:0">
+  <div class="wrap">
+    <div class="member reveal">
+      <div>
+        <p class="eyebrow" style="color:#fff">Members jump more</p>
+        <h2>Unlock members-only awesome</h2>
+        <p>Priority booking, member pricing and exclusive sessions. For everyday jumpers and Freestyle Academy squads alike.</p>
+        <a class="btn btn-volt" href="#venues">Become a member</a>
+      </div>
+      <div class="price">
+        <div class="amt">$30</div>
+        <small>Friday Night Super Session · 3 hrs unlimited</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <h2>Ready to <span class="fill">fly?</span></h2>
+    <p class="reveal">Pick a venue, grab a session and get some air this week.</p>
+    <a class="btn btn-primary reveal" href="#venues" style="font-size:1.1rem;padding:18px 34px">Book now
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#" style="margin-bottom:14px"><span class="brand-mark">B</span>BOUNCE<span class="dot">.</span></a>
+        <p style="color:var(--muted);font-size:.9rem;max-width:30ch">Australia's home of freestyle movement. 26 venues and counting.</p>
+      </div>
+      <div><h4>Explore</h4><ul>
+        <li><a href="#venues">Venues</a></li><li><a href="#experiences">Activities</a></li>
+        <li><a href="#parties">Parties</a></li><li><a href="#membership">Memberships</a></li>
+      </ul></div>
+      <div><h4>Support</h4><ul>
+        <li><a href="#">Tickets &amp; prices</a></li><li><a href="#">Manage booking</a></li>
+        <li><a href="#">Gift cards</a></li><li><a href="#">FAQ</a></li><li><a href="#">Contact</a></li>
+      </ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="#">About Bounce</a></li><li><a href="#">Careers</a></li>
+        <li><a href="#">Safety</a></li><li><a href="#">Terms &amp; policies</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 BOUNCE Inc Australia. Concept redesign by WeBuild Creative Studio.</span>
+      <div class="socials" aria-label="Social links">
+        <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 3v3.2a5 5 0 0 0 4 3.5v3a8 8 0 0 1-4-1.3V16a6 6 0 1 1-6-6c.3 0 .7 0 1 .1v3.2A3 3 0 1 0 13 16V3h3z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.3-.4-4.8a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.4A2.5 2.5 0 0 0 1.4 7.2C1 8.7 1 12 1 12s0 3.3.4 4.8a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.4a2.5 2.5 0 0 0 1.8-1.8C23 15.3 23 12 23 12zM10 15V9l5 3-5 3z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- Sticky header ----
+  var header=document.getElementById('site-header');
+  addEventListener('scroll',function(){header.classList.toggle('scrolled',scrollY>20)},{passive:true});
+
+  // ---- Venue data (26 venues, real BOUNCE Inc locations by state) ----
+  var VENUES=[
+    {n:"Canberra",s:"ACT"},
+    {n:"Blackburn",s:"VIC"},{n:"Box Hill",s:"VIC"},{n:"Essendon Fields",s:"VIC"},
+    {n:"Glen Iris",s:"VIC"},{n:"Heidelberg",s:"VIC"},{n:"Coburg",s:"VIC"},
+    {n:"Springvale",s:"VIC"},{n:"Werribee",s:"VIC"},{n:"Geelong",s:"VIC"},{n:"Bendigo",s:"VIC"},
+    {n:"Macgregor",s:"QLD"},{n:"Hendra",s:"QLD"},{n:"Tingalpa",s:"QLD"},{n:"Underwood",s:"QLD"},
+    {n:"Windsor",s:"QLD"},{n:"Gold Coast",s:"QLD"},{n:"Townsville",s:"QLD"},
+    {n:"Blacktown",s:"NSW"},{n:"Alexandria",s:"NSW"},
+    {n:"Joondalup",s:"WA"},{n:"Cannington",s:"WA"},{n:"Innaloo",s:"WA"},
+    {n:"Marion",s:"SA"},{n:"Modbury",s:"SA"},
+    {n:"Hobart",s:"TAS"}
+  ];
+  var grid=document.getElementById('venue-grid'),
+      countEl=document.getElementById('venue-count'),
+      search=document.getElementById('venue-search'),
+      chips=[].slice.call(document.querySelectorAll('.chip')),
+      activeState='all', query='';
+
+  function pin(){return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';}
+  function render(){
+    var list=VENUES.filter(function(v){
+      var okS=activeState==='all'||v.s===activeState;
+      var okQ=!query||v.n.toLowerCase().indexOf(query)>-1||v.s.toLowerCase().indexOf(query)>-1;
+      return okS&&okQ;
+    });
+    grid.innerHTML = list.length ? list.map(function(v){
+      return '<article class="venue"><span class="state">'+v.s+'</span>'+
+        '<h3>'+v.n+'</h3>'+
+        '<div class="meta"><span>'+pin()+' '+v.s+'</span><span>Open daily</span></div>'+
+        '<a class="book" href="#">Book this venue →</a></article>';
+    }).join('') : '<div class="venue-empty">No venues match “'+query+'”. Try another suburb or clear the filter.</div>';
+    countEl.textContent='Showing '+list.length+' of '+VENUES.length+' venues'+(activeState!=='all'?' in '+activeState:'')+'.';
+  }
+  chips.forEach(function(c){c.addEventListener('click',function(){
+    chips.forEach(function(x){x.setAttribute('aria-pressed','false')});
+    c.setAttribute('aria-pressed','true');activeState=c.dataset.state;render();
+  })});
+  search.addEventListener('input',function(){query=this.value.trim().toLowerCase();render();});
+  render();
+
+  // ---- Scroll reveal ----
+  if(matchMedia('(prefers-reduced-motion: no-preference)').matches){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{threshold:.14});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  }else{
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+  }
+</script>
+</body>
+</html>
