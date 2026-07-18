@@ -574,6 +574,13 @@
       if(isDesktop&&scene02Host){
         var metaLoaded=false;
         var seekReloaded=false;
+        var armScene02=function(){
+          scene02Video.preload='auto';
+          scene02Video.addEventListener('loadedmetadata',scrub,{once:true});
+          scene02Video.addEventListener('loadeddata',scrub,{once:true});
+          scene02Video.addEventListener('canplay',scrub,{once:true});
+          scene02Video.load();
+        };
         var scrub=function(){
           var rect=scene02Host.getBoundingClientRect(),
               vh=innerHeight,
@@ -595,11 +602,20 @@
         var preIo=new IntersectionObserver(function(es){
           es.forEach(function(e){
             if(e.isIntersecting&&!metaLoaded){
-              scene02Video.preload='auto';
-              scene02Video.load();
-              scene02Video.addEventListener('loadedmetadata',scrub,{once:true});
-              scene02Video.addEventListener('canplay',scrub,{once:true});
               metaLoaded=true;
+              var source=scene02Video.querySelector('source'),
+                  src=source?source.getAttribute('src'):scene02Video.currentSrc;
+              if(window.fetch&&window.URL&&URL.createObjectURL&&src){
+                fetch(src).then(function(res){
+                  if(!res.ok)throw new Error('Scene 02 video fetch failed');
+                  return res.blob();
+                }).then(function(blob){
+                  scene02Video.src=URL.createObjectURL(blob);
+                  armScene02();
+                })['catch'](armScene02);
+              }else{
+                armScene02();
+              }
               preIo.disconnect();
             }
           });
