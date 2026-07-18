@@ -21,20 +21,26 @@ Audit of `bounceinc.com.au` + YouTube (`BounceTrampolinePark` / "BOUNCE Australi
 
 ## Generated this run (Higgsfield)
 
-First pass used `cinematic_studio_2_5` — technically clean but off-brief: no lime/magenta stage light, and the venue-reveal draft came back as an athletics indoor track, not a trampoline park. Rejected outright rather than shipped; not agency standard. Re-ran on `flux_2` (pro variant, stronger prompt adherence) with explicit lighting/venue/no-ambiguity language. Final set:
+First pass used `cinematic_studio_2_5` — technically clean but off-brief: no lime/magenta stage light, and the venue-reveal draft came back as an athletics indoor track, not a trampoline park. Rejected outright rather than shipped; not agency standard. Re-ran on `flux_2` (pro variant, stronger prompt adherence) with explicit lighting/venue/no-ambiguity language.
 
-- `assets/stills/hero-mid-flip.webp` — 3:4, hero card. Dark venue, athlete mid-flip, lime + magenta volumetric beams through haze, deep black bg. On-brief.
-- `assets/stills/venue-reveal.webp` — 16:9, scroll scene 01 (nearest available ratio to the 16:11 slot; crop on implementation). Wall-to-wall in-ground trampoline grid, lime/cyan neon accent strips, people mid-jump. On-brief.
-- `assets/stills/airbag-flip.webp` — 16:9, scroll scene 02. Flip into a giant inflatable airbag, chalk dust, coach watching at edge (safety context, per the no-misleading-representation constraint), lime/magenta light. **BrandGuardian check needed:** the coach's shirt carries a small illegible generated graphic that reads as a logo-like mark — not BOUNCE's real logo (model can't reproduce it), but violates the literal "no logos" brief and should be cropped or regenerated before ship.
-- `assets/stills/minibounce.webp` — 16:9, miniBOUNCE. Padded lime/cyan toddler zone, parent close by, safe and joyful. On-brief.
+BrandGuardian QA gate (round 1) rejected `airbag-flip` and `minibounce` — logged and fixed:
+- `airbag-flip` — the coach's shirt carried a logo-like mark; a second regeneration attempt made it worse (a recognisable real "Under Armour" mark, plus the airbag itself regressed to a firm gymnastics crash mattress). Third attempt explicitly specified a plain unbranded top and a soft inflatable PVC airbag (not a mat) — clean.
+- `minibounce` — was generic warm mint/teal daycare colour with no lime or magenta, didn't read as BOUNCE. Regenerated with pastel-volt padding + magenta/cyan accent lighting explicitly called out in the prompt.
 
-All on brand token palette (`--ink #0A0A0B`, `--volt #B4FF3D`, `--magenta #FF2E7E`, `--cyan #19E6C9`).
+Final set, all on brand token palette (`--ink #0A0A0B`, `--volt #B4FF3D`, `--magenta #FF2E7E`, `--cyan #19E6C9`):
+
+- `assets/stills/hero-mid-flip.webp` — 3:4, hero card. Dark venue, athlete mid-flip, lime + magenta volumetric beams through haze, deep black bg.
+- `assets/stills/venue-reveal.webp` — 16:9, scroll scene 01 (nearest available ratio to the 16:11 slot; crop on implementation). Wall-to-wall in-ground trampoline grid, lime/cyan neon accent strips, people mid-jump.
+- `assets/stills/airbag-flip.webp` — 16:9, scroll scene 02. Flip into a soft inflatable airbag, chalk dust, coach in plain unbranded top watching at edge (safety context, no logos), lime/magenta light.
+- `assets/stills/minibounce.webp` — 16:9, miniBOUNCE. Pastel-volt padded zone with magenta/cyan accent light, parent close by, safe and joyful.
 
 ## High-fidelity mobile comps
 
-`assets/mobile-comps/` — real renders of the actual reference build (`index.html`) at 390px mobile viewport with the four generated stills composited into their slots, proving Direction A holds up on small screens (not mockup illustrations of the UI — the literal shipping code, screenshotted).
+`assets/mobile-comps/` — real renders of the actual reference build (`index.html`) at a genuine 390×844 mobile viewport with the four generated stills composited into their slots, proving Direction A holds up on small screens (not mockup illustrations of the UI — the literal shipping code, screenshotted).
 
-- `hero.webp` — hero + stat row + dual CTA
+BrandGuardian QA gate (round 1) rejected these too: headline/body/CTA were clipped off the right edge on all three. Root cause — Chrome headless's `--window-size` flag has a hard-floor minimum content width (~500px) in this environment regardless of the requested value, so the page laid out at 500px and got cropped into a 390px canvas rather than actually reflowing. Fixed by driving Chrome via the DevTools Protocol directly (`Emulation.setDeviceMetricsOverride`, width 390 / height 844 / mobile:true), which forces a true mobile layout viewport independent of the OS window size. Re-captured, verified no clipping (confirmed against a live `window.innerWidth` readout of 390 baked into a debug render before the final captures).
+
+- `hero.webp` — hero + stat row + dual CTA, nav fully visible including "Book now"
 - `venue-finder.webp` — search bar, state chips, populated venue cards (confirms the finder-as-hero-feature promise from `STRATEGY.md` Phase 4 works at mobile width)
 - `parties.webp` — audience-split cards (Parties / Schools & Camps / Corporate)
 
