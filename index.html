@@ -581,8 +581,11 @@
           if(total<=0||!scene02Video.duration)return;
           if((!scene02Video.seekable.length||scene02Video.seekable.end(0)<=0)&&!seekReloaded&&scene02Video.readyState>=1){
             seekReloaded=true;
+            scene02Video.addEventListener('loadeddata',scrub,{once:true});
+            scene02Video.addEventListener('canplay',scrub,{once:true});
             scene02Video.load();
-            setTimeout(scrub,800);
+            setTimeout(scrub,1200);
+            setTimeout(scrub,2400);
             return;
           }
           var progress=Math.min(1,Math.max(0,-rect.top/total));
