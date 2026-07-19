@@ -145,6 +145,10 @@
   @media(max-width:820px){.story-row{grid-template-columns:1fr}.story-row:nth-child(even) .story-media{order:0}}
   .story-media{aspect-ratio:16/11;border-radius:var(--r-lg);border:1px solid var(--line);background:linear-gradient(150deg,var(--ink-3),#0d0d10);display:grid;place-items:center;color:#33333c;font-family:Anton;position:relative;overflow:hidden}
   .story-media .slot{font-size:.82rem;text-align:center;padding:20px}
+  /* mounted media (video/poster) fills its card */
+  .media{position:absolute;inset:0}
+  .media video,.media img{width:100%;height:100%;object-fit:cover;display:block}
+  .media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.35));pointer-events:none}
   .story h2{font-size:clamp(1.8rem,4vw,2.8rem);text-transform:uppercase;margin-bottom:14px}
   .story p{color:#c2c2ca;max-width:44ch}
 
@@ -261,8 +265,8 @@
     </div>
     <div style="position:relative">
       <div class="hero-card">
-        <span class="badge">Live footage slot</span>
-        <div class="figure">[ CINEMATIC HERO<br>Athlete suspended mid-flip ·<br>Higgsfield / real venue footage ]</div>
+        <span class="badge">BOUNCE reel</span>
+        <div class="media" data-media="assets/motion/hero-loop.mp4" data-poster="assets/motion/hero-loop-poster.jpg" data-hero data-loop role="img" aria-label="Cinematic hero — an athlete suspended mid-flip"></div>
       </div>
       <div class="float-chip chip-1"><b>Now open</b><br>Friday Night Super Sessions</div>
       <div class="float-chip chip-2"><b>3 hrs · $30</b><br>Unlimited jump time</div>
@@ -331,7 +335,7 @@
         <h2>Momentum you can feel</h2>
         <p>Every venue is engineered for flow — connected trampolines, sprung floors and sightlines that keep parents watching and kids moving. This is movement as play.</p>
       </div>
-      <div class="story-media"><span class="slot">[ SCROLL SCENE 01<br>Wide venue reveal · parallax pan ]</span></div>
+      <div class="story-media"><div class="media" data-media="assets/motion/scene-01-venue-reveal.mp4" data-poster="assets/motion/scene-01-venue-reveal-poster.jpg" data-loop role="img" aria-label="Wide reveal panning through a BOUNCE venue"></div></div>
     </div>
     <div class="story-row reveal">
       <div>
@@ -339,7 +343,7 @@
         <h2>Land the big one</h2>
         <p>Progress from first bounce to full flips into a giant airbag. Coaches on hand, confidence built rep by rep.</p>
       </div>
-      <div class="story-media"><span class="slot">[ SCROLL SCENE 02<br>Slow-mo airbag flip · pinned sequence ]</span></div>
+      <div class="story-media"><div class="media" data-media="assets/motion/scene-02-airbag.mp4" data-poster="assets/motion/scene-02-airbag-poster.jpg" data-loop role="img" aria-label="Slow-motion flip into the airbag"></div></div>
     </div>
     <div class="story-row reveal">
       <div>
@@ -347,7 +351,7 @@
         <h2>From play to progression</h2>
         <p>Structured squads — miniBOUNCE, Bounce, Flight and Ninja — turn free play into real skill, coached weekly.</p>
       </div>
-      <div class="story-media"><span class="slot">[ SCROLL SCENE 03<br>Coach + squad · character motion ]</span></div>
+      <div class="story-media"><div class="media" data-media="assets/motion/scene-03-academy.mp4" data-poster="assets/motion/scene-03-academy-poster.jpg" data-loop role="img" aria-label="Freestyle Academy coach and squad"></div></div>
     </div>
   </div>
 </section>
@@ -515,6 +519,40 @@
   }else{
     document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
   }
+
+  // ---- Media loader: lazy video with poster + reduced-motion fallback ----
+  // ponytail: inline autoplay-on-view loop for all 4 scenes. STRATEGY's scene-02
+  // scroll-scrub (Three.js/currentTime) is the production upgrade, not needed to feel the impact.
+  var reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function mountPoster(el){
+    var img=document.createElement('img');
+    img.src=el.dataset.poster; img.alt=el.getAttribute('aria-label')||''; img.loading='lazy';
+    el.appendChild(img);
+  }
+  function mountVideo(el,eager){
+    var v=document.createElement('video');
+    v.muted=true; v.loop=('loop' in el.dataset); v.playsInline=true;
+    v.setAttribute('muted','');v.setAttribute('playsinline','');
+    v.preload=eager?'auto':'none'; v.poster=el.dataset.poster;
+    var s=document.createElement('source'); s.src=el.dataset.media; s.type='video/mp4';
+    v.appendChild(s); el.appendChild(v);
+    return v;
+  }
+  document.querySelectorAll('[data-media]').forEach(function(el){
+    if(reduceMotion){mountPoster(el);return;}
+    if('hero' in el.dataset){                 // hero is in view on load — play immediately
+      var hv=mountVideo(el,true); hv.autoplay=true; hv.play().catch(function(){});
+      return;
+    }
+    var v=mountVideo(el,false), started=false;
+    var mo=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){ if(!started){v.preload='auto';v.load();started=true;} v.play().catch(function(){}); }
+        else{ v.pause(); }
+      });
+    },{threshold:.35});
+    mo.observe(el);
+  });
 </script>
 </body>
 </html>

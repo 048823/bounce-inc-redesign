@@ -19,4 +19,4 @@ open index.html    # or: python3 -m http.server
 - Zero dependencies (fonts via CDN). Clean upgrade path to Next.js + GSAP/Fable + Three.js for production.
 
 ## Status
-Reference homepage + strategy complete. Full multi-page production, cinematic assets, and CMS wiring are delegated squad workstreams (see `STRATEGY.md § Production Plan`).
+Reference homepage + strategy complete. **Cinematic assets are live** — hero loop + 3 Inside-Bounce scenes (Higgsfield, BrandGuardian-approved) are wired into `index.html` with poster fallbacks and reduced-motion stills; see `assets/`. Full multi-page production and CMS wiring remain delegated squad workstreams (see `STRATEGY.md § Production Plan`).
