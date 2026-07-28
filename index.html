@@ -131,9 +131,14 @@
   @media(max-width:520px){.exp-grid{grid-template-columns:1fr}}
   .exp{position:relative;border-radius:var(--r);overflow:hidden;min-height:320px;border:1px solid var(--line);
     display:flex;flex-direction:column;justify-content:flex-end;padding:22px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.5)),linear-gradient(150deg,var(--ink-3),var(--ink-2))}
-  .exp .num{position:absolute;top:16px;right:18px;font-family:Anton;font-size:2.4rem;color:rgba(255,255,255,.08)}
+  .exp-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .exp::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,10,11,.15) 30%,rgba(10,10,11,.55) 62%,rgba(10,10,11,.9))}
+  .exp:hover .exp-bg{transform:scale(1.05)}
+  .exp-bg{transition:transform .5s var(--ease)}
+  .exp>*:not(.exp-bg){position:relative;z-index:2}
+  .exp .num{position:absolute;top:16px;right:18px;font-family:Anton;font-size:2.4rem;color:rgba(255,255,255,.14)}
   .exp h3{font-size:1.35rem;text-transform:uppercase;font-family:Archivo}
-  .exp p{font-size:.9rem;color:#bfbfc7;margin:8px 0 0}
+  .exp p{font-size:.9rem;color:#d7d7dd;margin:8px 0 0}
   .exp .tag{align-self:flex-start;margin-bottom:10px;font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--volt);padding:5px 10px;border-radius:999px}
   .exp.magenta .tag{background:var(--magenta);color:#fff}
   .exp.cyan .tag{background:var(--cyan);color:var(--ink)}
@@ -318,10 +323,10 @@
       <div><p class="eyebrow">Signature experiences</p><h2>Pick your energy</h2></div>
     </div>
     <div class="exp-grid">
-      <article class="exp reveal"><span class="num">01</span><span class="tag">Freestyle</span><h3>Open Jump</h3><p>Wall-to-wall trampolines, cliff jumps and the airbag. Total freedom to move.</p></article>
-      <article class="exp magenta reveal"><span class="num">02</span><span class="tag">Competitive</span><h3>Dodgeball</h3><p>Team courts, tournaments and pure chaos. Bring your crew.</p></article>
-      <article class="exp cyan reveal"><span class="num">03</span><span class="tag">Challenge</span><h3>Ninja &amp; The Wall</h3><p>Warped walls, obstacle runs and grip-testing climbs for every level.</p></article>
-      <article class="exp reveal"><span class="num">04</span><span class="tag">Ages 2–5</span><h3>miniBOUNCE</h3><p>A soft, safe zone built just for little legs and first big jumps.</p></article>
+      <article class="exp reveal"><img class="exp-bg" src="assets/stills/airbag-flip.webp" alt="" loading="lazy" /><span class="num">01</span><span class="tag">Freestyle</span><h3>Open Jump</h3><p>Wall-to-wall trampolines, cliff jumps and the airbag. Total freedom to move.</p></article>
+      <article class="exp magenta reveal"><img class="exp-bg" src="assets/stills/dodgeball.webp" alt="" loading="lazy" /><span class="num">02</span><span class="tag">Competitive</span><h3>Dodgeball</h3><p>Team courts, tournaments and pure chaos. Bring your crew.</p></article>
+      <article class="exp cyan reveal"><img class="exp-bg" src="assets/stills/ninja-wall.webp" alt="" loading="lazy" /><span class="num">03</span><span class="tag">Challenge</span><h3>Ninja &amp; The Wall</h3><p>Warped walls, obstacle runs and grip-testing climbs for every level.</p></article>
+      <article class="exp reveal"><img class="exp-bg" src="assets/stills/minibounce.webp" alt="" loading="lazy" /><span class="num">04</span><span class="tag">Ages 2–5</span><h3>miniBOUNCE</h3><p>A soft, safe zone built just for little legs and first big jumps.</p></article>
     </div>
   </div>
 </section>
